@@ -3,11 +3,17 @@
 @import 'fonts';
 @import 'grid';
 @import 'hover_styles';
+@import 'menus';
 
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #444;
     color: #333;
+}
+
+.st-pusher {
+    background: white;
 }
 
 .hero-unit {
