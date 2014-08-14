@@ -7,6 +7,7 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var psi = require('psi');
 var ngrok = require('ngrok');
+var deploy = require('gulp-gh-pages');
 
 var site = "www.google.com";
 
@@ -136,19 +137,25 @@ gulp.task('watch', ['connect', 'serve'], function () {
     gulp.watch('bower.json', ['wiredep']);
 });
 
-// gulp.task('psihelper', function (cb) {
-//     psi({
-//         nokey: 'true',
-//         url: site,
-//         strategy: 'mobile',
-//     }, cb);
-// });
+gulp.task('deploy', function () {
+    var options = {};
+    gulp.src("./dist/**/*")
+        .pipe(deploy(options));
+});
 
-// gulp.task('psi', function (cb) {
-//     var port = 9000;
-//     ngrok.connect(port, function(err, url) {
-//         if (err) return cb(err); //return error
-//         site = url;
-//         gulp.start('psihelper');
-//     });
-// });
+gulp.task('psihelper', function (cb) {
+    psi({
+        nokey: 'true',
+        url: site,
+        strategy: 'mobile',
+    }, cb);
+});
+
+gulp.task('psi', function (cb) {
+    var port = 9000;
+    ngrok.connect(port, function(err, url) {
+        if (err) return cb(err); //return error
+        site = url;
+        gulp.start('psihelper');
+    });
+});
